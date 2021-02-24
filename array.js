@@ -11,24 +11,26 @@ function removeDuplicates(){
 
 function calculateSum(array, callback){
   if(!Array.isArray(array)){
-    callback(true, undefined);
-    return;
+    return callback(true, undefined);
   }
   let sum = 0;
   for(let i = 0; i < array.length; i++){
     if(typeof array[i] !== 'number'){
-      callback(true, undefined);
-      return;
+      return callback(true, undefined);
     }
     sum += array[i];
   }
-  callback(null, sum);
+  return callback(null, sum);
 }
 
 function calculateAverage(callback){
-  calculateSum(this, function(error, result){
+  const array = this;
+  return calculateSum(array, function(error, result){
     if(error){
       throw new Error("All the elements should be numbers.");
+    }
+    else{
+      return result/array.length;
     }
   });
 }
@@ -54,6 +56,7 @@ function mapFactorial(array){
 function init() {
   require("./number").init();
   Array.prototype.removeDuplicates = removeDuplicates;
+  Array.prototype.calculateAverage = calculateAverage;
   Array.prototype.map = map;
 }
 
